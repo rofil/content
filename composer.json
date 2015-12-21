@@ -1,0 +1,12 @@
+{
+    "name": "rofilde/content",
+    "description": "basic content such as news and information",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rofilde Hasudungan",
+            "email": "rofilde.hasudungan@gmail.com"
+        }
+    ],
+    "require": {}
+}
