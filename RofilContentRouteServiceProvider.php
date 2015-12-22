@@ -5,7 +5,7 @@ namespace Rofil\Content;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-class RofilContentRoutesServiceProvider extends ServiceProvider
+class RofilContentRouteServiceProvider extends ServiceProvider
 {
     /**
      * This namespace is applied to the controller routes in your routes file.
