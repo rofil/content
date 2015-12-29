@@ -2,14 +2,19 @@
 
 namespace Rofil\Content\Entity\Eloquent;
 
-use Rofil\Content\Entity\Contracts\CategoryInterface;
+use Rofil\Content\Entity\Contracts\NewsCategoryInterface;
 use Rofil\Content\Entity\Contracts\ListInterface;
 
-class CategoryRepository implements CategoryInterface, ListInterface
+class NewsCategoryRepository implements NewsCategoryInterface, ListInterface
 {
-    public function __construct(Category $entity)
+    public function __construct(NewsCategory $entity)
     {
         $this->entity = $entity;
+    }
+
+    public function getEntity()
+    {
+        return $this->entity;
     }
 
     public function get($id, array $options = array())
@@ -26,13 +31,15 @@ class CategoryRepository implements CategoryInterface, ListInterface
     public function insert(array $data)
     {
         $en = $this->entity;
-        return $en->fill($data)->save();
+        $en->fill($data)->save();
+        return $en;
     }
 
     public function update($id, array $data)
     {
         $en = $this->entity->find($id);
-        return $en->fill($data)->save();
+        $en->fill($data)->save();
+        return $en;
     }
 
     public function delete($id)
@@ -40,7 +47,7 @@ class CategoryRepository implements CategoryInterface, ListInterface
         $this->entity->destroy($id);
     }
 
-    public function list(array $options = array())
+    public function lists(array $options = array())
     {
         return $this->entity->lists("name", "id");
     }

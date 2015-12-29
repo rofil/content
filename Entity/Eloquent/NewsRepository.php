@@ -3,12 +3,22 @@
 namespace Rofil\Content\Entity\Eloquent;
 
 use Rofil\Content\Entity\Contracts\NewsInterface;
+use Rofil\Content\Entity\Contracts\NewsCategoryInterface;
 
 class NewsRepository implements NewsInterface
 {
-    public function __construct(News $entity)
+    protected $entity;
+    protected $category;
+
+    public function __construct(News $entity, NewsCategoryInterface $category)
     {
-        $this->entity = $entity;
+        $this->entity   = $entity;
+        $this->category = $category;
+    }
+
+    public function getEntity()
+    {
+        return $this->entity;
     }
 
     public function get($id, array $options = array())
@@ -29,14 +39,26 @@ class NewsRepository implements NewsInterface
 
     public function insert(array $data)
     {
+        print_r('<pre>');
+
+        $ri = (explode(',', $data['categories']));
+        $r = array_map(function($item){
+            return strtolower(trim($item));
+        }, $ri);
+
+        print_r($r);
+
+        die();
         $en = $this->entity;
-        return $en->fill($data)->save();
+        $en->fill($data)->save();
+        return $en;
     }
 
     public function update($id, array $data)
     {
         $en = $this->entity->find($id);
-        return $en->fill($data)->save();
+        $en->fill($data)->save();
+        return $en;
     }
 
     public function delete($id)

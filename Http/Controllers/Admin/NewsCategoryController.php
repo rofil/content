@@ -3,18 +3,18 @@
 namespace Rofil\Content\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Rofil\Content\Entity\Contracts\NewsInterface;
-use Rofil\Content\Http\Requests\NewsFormRequest;
+use Rofil\Content\Entity\Contracts\NewsCategoryInterface;
+use Rofil\Content\Http\Requests\CategoryFormRequest;
 
-class NewsController extends Controller
+class NewsCategoryController extends Controller
 {
     protected $repo;
 
-    protected $viewsPath = "RofilContent::admin.news"; 
+    protected $viewsPath = "RofilContent::admin.news-category"; 
 
-    protected $routePath = "RofilContent.admin.news";
+    protected $routePath = "RofilContent.admin.news-category";
 
-    public function __construct(NewsInterface $repo)
+    public function __construct(NewsCategoryInterface $repo)
     {
         $this->repo = $repo;
     }
@@ -33,28 +33,27 @@ class NewsController extends Controller
     {
         return view($this->viewsPath.".create", [
             'entity'=>$this->repo->getEntity(),
-            'url' => route('RofilContent.admin.news.store'),
+            'url' => route($this->routePath.'.store'),
             'method'=>'POST'
         ]);
     }
 
-    public function store(NewsFormRequest $request)
+    public function store(CategoryFormRequest $request)
     {
-        // print_r($request->all("categories"));
         $en = $this->repo->insert($request->all());
-        // return redirect()->route($this->routePath.".show", ['id'=>$en->id]);
+        return redirect()->route($this->routePath.".show", ['id'=>$en->id]);
     }
 
     public function edit($id)
     {
         return view($this->viewsPath.".edit", [
             'entity'=>$this->repo->get($id),
-            'url' => route('RofilContent.admin.news.update', ['id'=>$id]),
+            'url' => route($this->routePath.'.update', ['id'=>$id]),
             'method'=>'PUT'
         ]);
     }
 
-    public function update(NewsFormRequest $request, $id)
+    public function update(CategoryFormRequest $request, $id)
     {
         $en = $this->repo->update($id, $request->all());
         return redirect()->route($this->routePath.".show", ['id'=>$en->id]);

@@ -4,7 +4,7 @@ namespace Rofil\Content\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsFormRequest extends FormRequest
+class CategoryFormRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,8 +14,8 @@ class NewsFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'body'  => 'required'
+            'name' => 'required',
+            // 'description'  => 'required'
         ];
     }
 }

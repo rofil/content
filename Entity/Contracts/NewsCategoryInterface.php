@@ -2,7 +2,7 @@
 
 namespace Rofil\Content\Entity\Contracts;
 
-interface CategoryInterface
+interface NewsCategoryInterface
 {
     public function getEntity();
     public function get($id, array $options = array());
