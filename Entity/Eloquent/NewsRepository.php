@@ -4,16 +4,19 @@ namespace Rofil\Content\Entity\Eloquent;
 
 use Rofil\Content\Entity\Contracts\NewsInterface;
 use Rofil\Content\Entity\Contracts\NewsCategoryInterface;
+use Illuminate\Contracts\Auth\Guard;
 
 class NewsRepository implements NewsInterface
 {
     protected $entity;
     protected $category;
+    protected $auth;
 
-    public function __construct(News $entity, NewsCategoryInterface $category)
+    public function __construct(News $entity, NewsCategoryInterface $category, Guard $auth)
     {
         $this->entity   = $entity;
         $this->category = $category;
+        $this->auth = $auth;
     }
 
     public function getEntity()
@@ -23,7 +26,9 @@ class NewsRepository implements NewsInterface
 
     public function get($id, array $options = array())
     {
-        return $this->entity->find($id);
+        $en = $this->entity->with("getUser")->find($id);
+        $en->author = $en->getUser == null ? "Admin" : ucfirst($en->getUser->name);
+        return $en;
     }
 
     public function all($perpage=null, $page=null, array $options = array())
@@ -39,25 +44,20 @@ class NewsRepository implements NewsInterface
 
     public function insert(array $data)
     {
-        print_r('<pre>');
-
-        $ri = (explode(',', $data['categories']));
-        $r = array_map(function($item){
-            return strtolower(trim($item));
-        }, $ri);
-
-        print_r($r);
-
-        die();
         $en = $this->entity;
-        $en->fill($data)->save();
+        $categories = $this->category->getListByNames($data['categories']);
+        $data['user_id'] = $this->auth->user()->id;
+        $en->fill(array_except($data, ['categories']))->save();
+        $en->getCategories()->sync(count($categories) > 0 ? $categories : []);
         return $en;
     }
 
     public function update($id, array $data)
     {
         $en = $this->entity->find($id);
-        $en->fill($data)->save();
+        $categories = $this->category->getListByNames($data['categories']);
+        $en->fill(array_except($data, ['categories']))->save();
+        $en->getCategories()->sync(count($categories) > 0 ? $categories : []);
         return $en;
     }
 

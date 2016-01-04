@@ -42,7 +42,7 @@ class NewsController extends Controller
     {
         // print_r($request->all("categories"));
         $en = $this->repo->insert($request->all());
-        // return redirect()->route($this->routePath.".show", ['id'=>$en->id]);
+        return redirect()->route($this->routePath.".show", ['id'=>$en->id]);
     }
 
     public function edit($id)

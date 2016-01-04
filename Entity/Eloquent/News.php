@@ -12,9 +12,18 @@ class News extends Model
     public function getCategories()
     {
         return $this->belongsToMany(
-            "Rofil\Content\Entity\Eloquent\Categories",
+            "Rofil\Content\Entity\Eloquent\NewsCategory",
             "rofil_content_categories_news",
             "news_id",
+            "category_id"
+        );
+    }
+
+    public function getUser()
+    {
+        return $this->belongsTo(
+            "Rofil\Security\Entity\Eloquent\User",
+            "user_id",
             "id"
         );
     }

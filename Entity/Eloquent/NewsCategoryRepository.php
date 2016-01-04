@@ -54,9 +54,28 @@ class NewsCategoryRepository implements NewsCategoryInterface, ListInterface
 
     public function parseFromString($string)
     {
-        $cat = explode(",", $string);
-        $cars = array_map(function($item){
-            return trim($item);
-        }, $cat);
+        $string = trim($string);
+        if($string == "") return [];
+        $ri = explode(',', $string);
+        return array_map(function($item){
+            return strtolower(trim($item));
+        }, $ri);
+    }
+
+    public function getListByNames($string)
+    {
+        $names = $this->parseFromString($string);
+        if(count($names) == 0) return [];
+        $nameCategories = $this->entity->whereIn('name', $names)->lists('name', 'id')->toArray();
+        $categories = array_keys($nameCategories);
+        $new_categories = array_diff($names, $nameCategories);
+        if(count($new_categories) > 0){
+            $new_insert_categories = array_map(function($i){
+                return ['name' => $i];
+            }, $new_categories);    
+            $this->entity->insert($new_insert_categories);
+            $categories = $this->entity->whereIn('name', $names)->lists('id', 'id')->toArray();
+        }
+        return $categories;
     }
 }
