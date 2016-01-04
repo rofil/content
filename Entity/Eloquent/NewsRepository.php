@@ -31,15 +31,35 @@ class NewsRepository implements NewsInterface
         return $en;
     }
 
+
     public function all($perpage=null, $page=null, array $options = array())
     {
         $en = $this->entity;
 
-        if(array_key_exists('order_updated', $options)){
-            $en->orderBy("updated_at", $options['order_updated']);
+        if(array_key_exists('category', $options)){
+            $en =  $this->category->get(7)->getNews;
+            // echo $en;
+            return $en;
         }
 
-        return $en->all();
+        if(array_key_exists('order_updated', $options)){
+            $en = $en->orderBy("updated_at", $options['order_updated']);
+        }
+
+        if(array_key_exists('published', $options)){
+            $en = $en->orderBy("published", $options['published']);
+        }
+
+        $en = $en->with("getUser");
+        $en = $en->get();
+
+        $cols = $en->map(function($item, $key){
+            $item->author        = $item->getUser   == null ? "Admin" : ucfirst($item->getUser->name);
+            $item->namePublished = $item->published == 0    ? "Draft" : "Published";
+            return $item;
+        });
+
+        return $cols;
     }
 
     public function insert(array $data)

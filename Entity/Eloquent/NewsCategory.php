@@ -15,7 +15,7 @@ class NewsCategory extends Model
             "Rofil\Content\Entity\Eloquent\News",
             "rofil_content_categories_news",
             "category_id",
-            "id"
+            "news_id"
         );
     }
 }

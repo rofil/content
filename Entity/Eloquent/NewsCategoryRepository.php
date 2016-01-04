@@ -19,7 +19,7 @@ class NewsCategoryRepository implements NewsCategoryInterface, ListInterface
 
     public function get($id, array $options = array())
     {
-        return $this->entity->find($id);
+        return $this->entity->with('getNews')->find($id);
     }
 
     public function all($perpage=null, $page=null, array $options = array())

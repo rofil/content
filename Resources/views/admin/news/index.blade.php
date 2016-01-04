@@ -15,15 +15,15 @@
             <th>Author</th>
             <th>Updated</th>
             <th>Published</th>
-            <th></th>
+            <th>Options</th>
         </thead>
         @foreach($data as $i=>$item)
         <tr>
             <td>{{ $i + 1 }}</td>
-            <td>{{ $item->title }}</td>
-            <td>{{ $item->user_id }}</td>
+            <td><a href="{{ route("RofilContent.admin.news.show", ['id'=>$item->id]) }}">{{ $item->title }}</a>  </td>
+            <td>{{ $item->author }}</td>
             <td>{{ $item->updated_at }}</td>
-            <td>{{ $item->published }}</td>
+            <td>{{ $item->namePublished }}</td>
             <td>
                 <a href="{{ route('RofilContent.admin.news.edit', ['id'=>$item->id]) }}" class="btn btn-warning">
                     <span class="glyphicon glyphicon-pencil"></span>
