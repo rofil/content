@@ -30,7 +30,12 @@ class NewsController extends Controller
     public function showByCategory($id) 
     {
         $news = $this->repo->all(null, null,['category'=>$id]);
-
         return view($this->viewsPath.".show-by-category", [ 'data' => $news ]);
+    }
+
+    public function index(\Rofil\Content\Entity\Contracts\TopicInterface $topic) 
+    {
+        $news = $this->repo->all(null, null,['order_updated'=>'DESC']);
+        return view($this->viewsPath.".index", [ 'data' => $news ]);
     }
 }

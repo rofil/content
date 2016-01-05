@@ -26,8 +26,8 @@ class RofilContentServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            'Rofil\Content\Entity\Contracts\ListInterface',
-            'Rofil\Content\Entity\Eloquent\NewsCategoryRepository'
+            'Rofil\Content\Entity\Contracts\TopicInterface',
+            'Rofil\Content\Entity\Eloquent\TopicRepository'
         );
     }
 }

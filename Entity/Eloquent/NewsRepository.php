@@ -19,15 +19,26 @@ class NewsRepository implements NewsInterface
         $this->auth = $auth;
     }
 
+    /**
+     * Get the entity of news
+     * @return News The Entity of the news
+     */
     public function getEntity()
     {
         return $this->entity;
     }
 
+    /**
+     * Get the entity of the news with the spesific id
+     * @param  int $id         The id of the news
+     * @param  array  $options The options of entity
+     * @return News            News
+     */
     public function get($id, array $options = array())
     {
-        $en = $this->entity->with("getUser")->find($id);
+        $en = $this->entity->with("getUser", "getCategories")->find($id);
         $en->author = $en->getUser == null ? "Admin" : ucfirst($en->getUser->name);
+        $en->categories = implode(", ", $en->getCategories->lists("name")->toArray());
         return $en;
     }
 
@@ -37,8 +48,7 @@ class NewsRepository implements NewsInterface
         $en = $this->entity;
 
         if(array_key_exists('category', $options)){
-            $en =  $this->category->get(7)->getNews;
-            // echo $en;
+            $en =  $this->category->get($options['category'])->getNews;
             return $en;
         }
 

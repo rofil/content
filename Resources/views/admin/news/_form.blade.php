@@ -1,10 +1,20 @@
-@inject("newsCategory", "Rofil\Content\Entity\Contracts\ListInterface")
+@inject("topic", "Rofil\Content\Entity\Contracts\TopicInterface")
 
 {!! Form::model($entity, ['url' => $url, 'method'=>$method, 'files' => true]) !!}
 
 <div class="form-group">
     <label for="title">Judul</label>
     {!! Form::text('title', null, ['class'=>'form-control']) !!}
+</div>
+
+<div class="form-group">
+    <label for="topic_id">Topic</label>
+    {!! Form::select('topic_id', $topic->lists(), null, ['class'=>'form-control']) !!}
+</div>
+
+<div class="form-group">
+    <label for="published">Published</label>
+    {!! Form::select('published', [0=>"Draft", 1=>"Published"], null, ['class'=>'form-control']) !!}
 </div>
 
 <div class="form-group">

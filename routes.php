@@ -79,6 +79,7 @@ Route::group(['middleware'=>'auth'], function(){
 
 Route::get("/news/{id}/show", ['uses'=>'NewsController@show', 'as'=>'RofilContent.news.show']);
 Route::get("/news/{id}/category", ['uses'=>'NewsController@showByCategory', 'as'=>'RofilContent.news.showByCategory']);
+Route::get("/news", ['uses'=>'NewsController@index', 'as'=>'RofilContent.news.index']);
 // Event::listen('illuminate.query', function($query)
 // {
 //     var_dump($query);
