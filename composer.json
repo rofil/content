@@ -2,11 +2,17 @@
     "name": "rofilde/content",
     "description": "basic content such as news and information",
     "license": "MIT",
+    "require": {
+        "rofilde/bootstrap-template":"1.0.*",
+        "rofilde/laravel-security":"1.0.*",
+        "laravelcollective/html": "^5.1",
+        "unisharp/laravel-ckeditor": "^4.5",
+        "unisharp/laravel-filemanager": "^1.1"
+    },
     "authors": [
         {
             "name": "Rofilde Hasudungan",
             "email": "rofilde.hasudungan@gmail.com"
         }
-    ],
-    "require": {}
+    ]
 }

@@ -11,6 +11,10 @@ class Topic extends Model
 
     public function getNews()
     {
-        return $this->hasMany("Rofil\Content\Entity\Eloquent\News");
+        return $this->hasMany(
+            "Rofil\Content\Entity\Eloquent\News", 
+            "topic_id", 
+            "id"
+        );
     }
 }

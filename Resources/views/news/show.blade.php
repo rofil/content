@@ -16,5 +16,5 @@
 
     <hr>
 
-    {{ $entity->body }}
+    {!! $entity->body !!}
 @stop

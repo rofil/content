@@ -40,8 +40,13 @@ class NewsController extends Controller
 
     public function store(NewsFormRequest $request)
     {
-        // print_r($request->all("categories"));
-        $en = $this->repo->insert($request->all());
+        $data = $request->all();
+        $image = $this->repo->upload($request);
+        if($image != null){
+            $data['image'] = $image;
+        }
+
+        $en = $this->repo->insert($data);
         return redirect()->route($this->routePath.".show", ['id'=>$en->id]);
     }
 
@@ -56,7 +61,13 @@ class NewsController extends Controller
 
     public function update(NewsFormRequest $request, $id)
     {
-        $en = $this->repo->update($id, $request->all());
+        $data = $request->all();
+        $image = $this->repo->upload($request);
+        if($image != null){
+            $data['image'] = $image;
+        }
+        
+        $en = $this->repo->update($id, $data);
         return redirect()->route($this->routePath.".show", ['id'=>$en->id]);
     }
 

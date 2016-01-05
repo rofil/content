@@ -5,7 +5,15 @@
 @stop
 
 @section("body")
+<pre>
+    {{-- {{ $entity->imagePath }} --}}
+    <?php
+      $img = Image::make($entity->imagePath);
 
+      // echo ();
+    ?>
+</pre>
+    <img src="{{ Image::make($entity->imagePath)->widen(300)->encode('data-url') }}" alt="">
     <div class="row">
       <div class="col-md-9">
         <span class="glyphicon glyphicon-user"></span> {{ $entity->author }}

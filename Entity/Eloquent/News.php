@@ -27,4 +27,13 @@ class News extends Model
             "id"
         );
     }
+
+    public function getTopic()
+    {
+        return $this->belongsTo(
+            "Rofil\Content\Entity\Eloquent\Topic",
+            "topic_id",
+            "id"
+        );
+    }
 }

@@ -11,6 +11,7 @@ class RofilContentServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/Resources/views', 'RofilContent');
 
         $this->publishes([__DIR__.'/database/migrations'=>database_path("migrations")], "migrations");
+        $this->publishes([__DIR__.'/public'=>public_path("rofil-content")], "public");
     }
 
     public function register()
