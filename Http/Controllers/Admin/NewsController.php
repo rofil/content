@@ -21,7 +21,7 @@ class NewsController extends Controller
 
     public function index()
     {
-        return view($this->viewsPath.".index", ['data'=>$this->repo->all(null, null, ['order_updated'=>'DESC'])]);
+        return view($this->viewsPath.".index", ['data'=>$this->repo->all(5, null, ['order_updated'=>'DESC'])]);
     }
 
     public function show($id)

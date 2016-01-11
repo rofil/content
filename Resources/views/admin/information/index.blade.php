@@ -2,30 +2,28 @@
 
 @section("content")
 
-<h1>Daftar Berita/Artikel</h1>
+<h1>Daftar Informasi</h1>
 <hr>
-<a href="{{ route('RofilContent.admin.news.create') }}" class="btn btn-primary">Tambah Berita</a>
+<a href="{{ route('RofilContent.admin.information.create') }}" class="btn btn-primary">Tambah Informasi</a>
 <hr>
 
 <div class="panel panel-default">
     <table class="table table-striped table-bordered">
         <thead>
             <th>#</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Updated</th>
+            <th>Judul</th>
             <th>Published</th>
+            <th>Author</th>
             <th>Options</th>
         </thead>
         @foreach($data as $i=>$item)
         <tr>
             <td>{{ $i + 1 }}</td>
-            <td><a href="{{ route("RofilContent.admin.news.show", ['id'=>$item->id]) }}">{{ $item->title }}</a>  </td>
-            <td>{{ $item->author }}</td>
-            <td>{{ $item->updated_at }}</td>
+            <td><a href="{{ route("RofilContent.admin.information.show", ['id'=>$item->id]) }}">{{ $item->title }}</a></td>
             <td>{{ $item->namePublished }}</td>
+            <td>{{ $item->author }}</td>
             <td>
-                <a href="{{ route('RofilContent.admin.news.edit', ['id'=>$item->id]) }}" class="btn btn-warning">
+                <a href="{{ route('RofilContent.admin.information.edit', ['id'=>$item->id]) }}" class="btn btn-warning">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
             </td>

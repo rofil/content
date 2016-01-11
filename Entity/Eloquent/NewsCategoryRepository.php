@@ -22,10 +22,10 @@ class NewsCategoryRepository implements NewsCategoryInterface, ListInterface
         return $this->entity->with('getNews')->find($id);
     }
 
-    public function all($perpage=null, $page=null, array $options = array())
+    public function all($perpage=20, $page=null, array $options = array())
     {
         $en = $this->entity;
-        return $en->all();
+        return $en->paginate($perpage);
     }
 
     public function insert(array $data)

@@ -2,18 +2,18 @@
 
 @section("content")
 
-<h1>Daftar Berita/Artikel</h1>
+<h1>Daftar Kategori</h1>
 <hr>
-<a href="{{ route('RofilContent.admin.news-category.create') }}" class="btn btn-primary">Tambah Categori Berita</a>
+<a href="{{ route('RofilContent.admin.news-category.create') }}" class="btn btn-primary">Tambah Kategori</a>
 <hr>
 
-<div class="panel panel-primary">
-    <table class="table table-striped table-bordered">
+<div class="panel panel-default">
+    <table class="table table-stripped table-bordered">
         <thead>
             <th>#</th>
             <th>Nama</th>
             <th>Keterangan</th>
-            <th></th>
+            <th>Opsi</th>
         </thead>
         @foreach($data as $i=>$item)
         <tr>
@@ -29,4 +29,8 @@
         @endforeach
     </table>
 </div>
+<div class="text-center">
+    {!! $data->render() !!}
+</div>
+
 @stop

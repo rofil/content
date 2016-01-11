@@ -45,7 +45,7 @@ class NewsRepository implements NewsInterface
     }
 
 
-    public function all($perpage=null, $page=null, array $options = array())
+    public function all($perpage=20, $page=null, array $options = array())
     {
         $en = $this->entity;
 
@@ -63,7 +63,7 @@ class NewsRepository implements NewsInterface
         }
 
         $en = $en->with("getUser", "getCategories", "getTopic");
-        $en = $en->get();
+        $en = $en->paginate($perpage);
 
         $cols = $en->map(function($item, $key){
             $image               = public_path("rofil-content/news/".$item->image);
@@ -75,6 +75,8 @@ class NewsRepository implements NewsInterface
             $item->cuplikan      = substr(strip_tags($item->body, "<b>"), 0, 300).'...' ;
             return $item;
         });
+        $cols->pagination=$en->render();
+
 
         return $cols;
     }

@@ -2,23 +2,25 @@
 
 namespace Rofil\Content\Entity\Eloquent;
 
-use Rofil\Content\Entity\Contracts\TopicInterface;
+use Rofil\Content\Entity\Contracts\InformationInterface;
 use Rofil\Content\Entity\Contracts\ListInterface;
-use Rofil\Content\Entity\Contracts\TopicCategoryInterface;
+use Rofil\Content\Entity\Contracts\InformationCategoryInterface;
 use Illuminate\Contracts\Auth\Guard;
 
-class TopicRepository implements TopicInterface, ListInterface
+class InformationRepository implements InformationInterface
 {
     protected $entity;
+    protected $auth;
 
-    public function __construct(Topic $entity)
+    public function __construct(Information $entity, Guard $auth)
     {
-        $this->entity   = $entity;
+        $this->entity = $entity;
+        $this->auth   = $auth;
     }
 
     /**
      * Get the entity of topic
-     * @return Topic The Entity of the topic
+     * @return Information The Entity of the topic
      */
     public function getEntity()
     {
@@ -29,25 +31,34 @@ class TopicRepository implements TopicInterface, ListInterface
      * Get the entity of the topic with the spesific id
      * @param  int $id         The id of the topic
      * @param  array  $options The options of entity
-     * @return Topic            Topic
+     * @return Information            Information
      */
     public function get($id, array $options = array())
     {
-        $en = $this->entity->find($id);
+        $en = $this->entity->with("getUser")->find($id);
+        $en->author = $en->getUser == null ? "Admin" : ucfirst($en->getUser->name);
         return $en;
     }
 
 
-    public function all($perpage=20, $page=null, array $options = array())
+    public function all($perpage=null, $page=null, array $options = array())
     {
         $en = $this->entity;
-        $en = $en->paginate($perpage);
+        $en = $en->paginate(10);
 
-        return $en;
+        $cols = $en->map(function($item, $key){
+            $item->author = $item->getUser == null ? "Admin" : ucfirst($item->getUser->name);
+            $item->namePublished = $item->published == 1 ? "Published" : 'Draft';
+            return $item;
+        });
+
+        $cols->pagination=$en->render();
+        return $cols;
     }
 
     public function insert(array $data)
     {
+        $data['user_id'] = $this->auth->user()->id;
         $en = $this->entity;
         $en->fill($data)->save();
         return $en;
